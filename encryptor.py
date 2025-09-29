@@ -36,8 +36,8 @@ def generate_keys():
     )
     pem2.splitlines()[0]
     try:
-        file1 = open("private_key.pem", "wb")
-        file2 = open("public_key.pem", "wb")
+        file1 = open("Encryption\public_key.pem", "wb")
+        file2 = open("Encryption\private_key.pem", "wb")
 
         file1.write(pem1)
         file2.write(pem2)
@@ -52,15 +52,20 @@ def load_public_key():
     """
     Load the public key from 'public_key.pem'.
     Security+: The public key is used for encryption and can be shared freely.
-    
     TODO:
     - Open and read 'public_key.pem' in binary mode.
     - Use serialization to load the public key from the file content.
     - Return the public key object.
     - Handle errors (e.g., file not found) and return None if it fails.
     """
-    pass
-
+    try:
+        with open('X:\Scripts\Encryption\public_key.pem', 'rb') as key_file:
+            public_key = serialization.load_pem_public_key(key_file.read())
+            return public_key
+    except Exception as e:
+        print(e)
+        return None
+    
 def load_private_key():
     """
     Load the private key from 'private_key.pem'.
@@ -121,6 +126,7 @@ def main():
     - Handle invalid menu choices and provide feedback.
     """
     print(generate_keys())
+    print(load_public_key())
     pass
 
 if __name__ == "__main__":
