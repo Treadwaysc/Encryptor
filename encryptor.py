@@ -77,7 +77,13 @@ def load_private_key():
     - Return the private key object.
     - Handle errors (e.g., file not found) and return None if it fails.
     """
-    pass
+    try:
+        with open('X:\Scripts\Encryption\private_key.pem', 'rb') as key_file:
+            private_key = serialization.load_pem_private_key(key_file.read(), password=None)
+            return private_key
+    except Exception as e:
+        print(e)
+        return None
 
 def encrypt_file(input_file, output_file):
     """
@@ -127,6 +133,7 @@ def main():
     """
     print(generate_keys())
     print(load_public_key())
+    print(load_private_key())
     pass
 
 if __name__ == "__main__":
