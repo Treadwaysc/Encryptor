@@ -131,9 +131,27 @@ def main():
     - For encryption/decryption, prompt for input and output file names.
     - Handle invalid menu choices and provide feedback.
     """
-    print(generate_keys())
-    print(load_public_key())
-    print(load_private_key())
+    user_input = ""
+    while user_input.lower() != "exit":
+        user_input = input("To Generate Keys enter 1\n" \
+        "      To Encrypt a file enter 2\n" \
+        "      To Decrypt a file enter 3\n" \
+        "      To display test info enter 4\n"
+        "      To exit type exit\n"
+        "      \nInput: ")
+        if user_input.strip() == "1":
+            print("Output: " + generate_keys() + "\n")
+        elif user_input.strip() == "2":
+            print("Not yet implimented" + "\n")
+        elif user_input.strip() == "3":
+            print("Not yet implimented" + "\n")
+        elif user_input.strip() == "4":
+            print("Output: " + load_public_key() + "\n")
+            print("Output: " + load_private_key() + "\n")
+        else:
+            print("Input invalid" + "\n")
+            user_input = "exit"
+    
     pass
 
 if __name__ == "__main__":
