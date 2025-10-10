@@ -99,7 +99,39 @@ def encrypt_file(input_file, output_file):
     - Save the encrypted data to output_file in binary mode.
     - Handle errors (e.g., file too large, file not found) and print status.
     """
-    pass
+    if(os.path.getsize(input_file) > 256):
+        print("File size too large must be under 256 bytes" + "\n")
+        return
+    
+    public_key = load_public_key()
+
+    try:
+        file3 = open(input_file, "rb")
+        textToEncrypt = file3.read()
+        file3.close()
+    except Exception as e:
+        print(e)
+
+    #troubleshooting print
+    #print("File successfully opened in read binary" + "\n")
+
+    cipherText = public_key.encrypt(textToEncrypt, padding.OAEP(
+        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+        algorithm=hashes.SHA256(),
+        label=None
+    ))
+
+    try:
+        file4 = open(output_file, "wb")
+        file4.write(cipherText)
+        file4.close()
+    except Exception as e:
+        print(e)
+
+    #troubleshooting print
+    #print("successfully encrypted file" + "\n")
+
+    return output_file
 
 def decrypt_file(input_file, output_file):
     """
@@ -142,7 +174,15 @@ def main():
         if user_input.strip() == "1":
             print("Output: " + generate_keys() + "\n")
         elif user_input.strip() == "2":
-            print("Not yet implimented" + "\n")
+            input_file = input("Give file name with extension to encrypt: ").strip()
+            output_file = input("Give file name with extension to write to: ").strip()
+            print("\n")
+                   
+            input_file = os.path.abspath(input_file)
+            output_file = os.path.abspath(output_file)
+
+            encrypt_file(input_file, output_file)
+    
         elif user_input.strip() == "3":
             print("Not yet implimented" + "\n")
         elif user_input.strip() == "4":
