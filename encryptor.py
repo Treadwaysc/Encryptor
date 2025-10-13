@@ -145,7 +145,31 @@ def decrypt_file(input_file, output_file):
     - Save the decrypted data to output_file in binary mode.
     - Handle errors (e.g., file not found, decryption failure) and print status.
     """
-    pass
+    private_key = load_private_key()
+
+    try:
+        file5 = open(input_file, "rb")
+        textToDecrypt = file5.read()
+        file5.close()
+    except Exception as e:
+        print(e)
+
+    private_key = load_private_key()
+
+    decipherText = private_key.decrypt(textToDecrypt, padding.OAEP(
+        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+        algorithm=hashes.SHA256(),
+        label=None
+    ))
+
+    try:
+        file6 = open(output_file, "wb")
+        file6.write(decipherText)
+        file6.close()
+    except Exception as e:
+        print(e)
+
+    return output_file
 
 def main():
     """
@@ -184,7 +208,14 @@ def main():
             encrypt_file(input_file, output_file)
     
         elif user_input.strip() == "3":
-            print("Not yet implimented" + "\n")
+            input_file = input("Give file name with extension to decrypt: ").strip()
+            output_file = input("Give file name with extension to write to: ").strip()
+            print("\n")
+                   
+            input_file = os.path.abspath(input_file)
+            output_file = os.path.abspath(output_file)
+
+            decrypt_file(input_file, output_file)
         elif user_input.strip() == "4":
             print("Output: " + load_public_key() + "\n")
             print("Output: " + load_private_key() + "\n")
